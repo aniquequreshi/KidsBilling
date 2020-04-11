@@ -4,6 +4,10 @@
 
 {% block content %}
 
+    <table>
+    <tr>
+        <td>
+
   <form method="get" id="myForm" name="myForm">
       <table>
 
@@ -21,6 +25,14 @@
           </table>
   </form>
 
+        </td>
+<td>
+        <button onclick = "myStatusFunction(1)" >Not Started</button><br>
+        <button onclick = "myStatusFunction(2)" >In Progress</button><br>
+        <button onclick = "myStatusFunction(3)" >Done</button><br>
+</td>
+    </tr>
+    </table>
 
   <br><hr><br>
 
@@ -187,6 +199,11 @@
         formattedDate = [year, month, day].join('-');
 
         $('#id_follow_up_date_1').val(formattedDate);
+    }
+
+    function myStatusFunction(status) {
+        $('#id_status').prop('selectedIndex',status);
+        $('#filter').click();
     }
 
 
