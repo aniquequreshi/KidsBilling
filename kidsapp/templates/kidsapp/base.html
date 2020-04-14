@@ -39,9 +39,9 @@
 
         <ul>
             <li><a href="{% url 'index' %}">Home</a></li>
-            {% if perms.kidsapp.view_denial %}
+{#            {% if perms.kidsapp.add_denial %}#}
                 <li><a href="{% url 'denial-list' %}">All Tasks</a></li>
-            {% endif %}
+{#            {% endif %}#}
             {% if perms.kidsapp.add_denial %}
                 <li><a href="{% url 'denial-create' %}">Create Tasks</a></li>
                 <li><a href="{% url 'denial-upload' %}">Upload Tasks</a></li>

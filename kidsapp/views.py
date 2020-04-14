@@ -10,7 +10,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
-
 from kidsapp.models import Denial
 from kidsapp.forms import DenialForm
 from kidsapp.filters import DenialFilter
@@ -21,7 +20,8 @@ from django.contrib import messages
 
 # Create your views here.
 def index_view(request):
-    return render(request,'kidsapp/index.html')
+    return render(request, 'kidsapp/index.html')
+
 
 @login_required
 @permission_required('kidsapp.create_denial')
@@ -29,7 +29,7 @@ def denial_upload(request):
     # declaring template
     template = "kidsapp/denial_upload.html"
     data = Denial.objects.all()
-# prompt is a context variable that can have different values      depending on their context
+    # prompt is a context variable that can have different values      depending on their context
     # GET request returns the value of the data with the specified key.
     if request.method == "GET":
         return render(request, template)
@@ -43,16 +43,15 @@ def denial_upload(request):
     next(io_string)
     for column in csv.reader(io_string, delimiter='\t', quotechar="|"):
         _, created = Denial.objects.update_or_create(
-        visit_id=column[0],
-        carrier_code= column[1].split(' - ', 1)[0],
-        carrier=column[1].split(' - ', 1)[1],
-        reason_code=column[2],
-        reason=column[3].split(': ', 1)[1],
-        date_of_service=column[4]
-    )
+            visit_id=column[0],
+            carrier_code=column[1].split(' - ', 1)[0],
+            carrier=column[1].split(' - ', 1)[1],
+            reason_code=column[2],
+            reason=column[3].split(': ', 1)[1],
+            date_of_service=column[4]
+        )
     context = {}
     return render(request, template, context)
-
 
 
 # class DenialListView(ListView):
@@ -64,6 +63,7 @@ class DenialListView(PermissionRequiredMixin, FilterView):
         query_set = self.model.objects.all()
         denial_filtered_list = DenialFilter(self.request.GET, queryset=query_set)
         return denial_filtered_list.qs
+
 
 # class DenialDetailView(DetailView):
 #     model = Denial
@@ -79,11 +79,11 @@ class DenialUpdateView(PermissionRequiredMixin, UpdateView):
     model = Denial
     form_class = DenialForm
     permission_required = ('kidsapp.change_denial')
-    #fields = '__all__'
-    success_url = reverse_lazy('denial-list')  #was denial-list
+    # fields = '__all__'
+    success_url = reverse_lazy('denial-list')  # was denial-list
+
 
 class DenialDeleteView(PermissionRequiredMixin, DeleteView):
     model = Denial
-    success_url = reverse_lazy('denial-list') #was denial-list
+    success_url = reverse_lazy('denial-list')  # was denial-list
     permission_required = ('kidsapp.delete_denial')
-
